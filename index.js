@@ -20,7 +20,8 @@ app.use(
 
 app.get('/api/v1/ping', (req, res) => {
   res.status(200).json({
-    success: true
+    success: true,
+    url: process.env.API_URL
   })
 })
 
