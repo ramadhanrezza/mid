@@ -61,3 +61,5 @@ app.post('/api/v1/users/login', (req, res) => {
 })
 
 app.listen(5001, () => console.log("Backend server is running!"));
+
+module.exports = app;
