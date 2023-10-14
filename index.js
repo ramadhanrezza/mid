@@ -34,15 +34,15 @@ app.post('/api/v1/users/login', (req, res) => {
   const sha256body = SHA256(JSON.stringify(req.body))
   const stringToSign = `${httpMethod}:${relativeUrl}:${sha256body}:${timestamp}`
   const sha256digest = HmacSHA256(stringToSign, secret);
-  console.log(process.env.API_SIGNATURE_SECRET);
+  console.log(stringToSign);
   let config = {
     method: 'POST',
     url: `${process.env.API_URL}/api/v1/users/login`,
     headers: {
-      'X-REQUEST-ID': uuid.v4(), 
-      'X-TIMESTAMP': timestamp,  
-      'X-CHANNEL-ID': 'ANDROID001', 
-      'X-SIGNATURE': sha256digest.toString(),
+      'X-REQUEST-ID': req.header('x-request-id'), 
+      'X-TIMESTAMP': req.header('x-timestamp'),  
+      'X-CHANNEL-ID': req.header('channel-id'), 
+      'X-SIGNATURE': req.header('x-signature'),
       'X-DEVICE-ID': '', 
       'X-DEVICE-INFO': '', 
       'Content-Type': 'application/json'
