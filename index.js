@@ -105,6 +105,91 @@ app.get('/api/v1/banks', (req, res) => {
     })
 })
 
+app.get('/api/v1/creditors', (req, res) => {
+  let config = {
+    method: 'GET',
+    url: `${process.env.API_URL}/api/v1/creditors`,
+    headers: headers(req),
+    params: req.query
+  }
+
+  axios.request(config)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      res.status(400).json(error?.response?.data)
+    })
+})
+
+app.get('/api/v1/creditors/:uid', (req, res) => {
+  let config = {
+    method: 'GET',
+    url: `${process.env.API_URL}/api/v1/creditors/${req.params.uid}`,
+    headers: headers(req),
+    params: req.query
+  }
+
+  axios.request(config)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      res.status(400).json(error?.response?.data)
+    })
+})
+
+app.post('/api/v1/creditors', (req, res) => {
+  let config = {
+    method: 'GET',
+    url: `${process.env.API_URL}/api/v1/creditors`,
+    headers: headers(req),
+    data: req.body
+  }
+
+  axios.request(config)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      res.status(400).json(error?.response?.data)
+    })
+})
+
+app.delete('/api/v1/creditors/:uid', (req, res) => {
+  let config = {
+    method: 'GET',
+    url: `${process.env.API_URL}/api/v1/creditors/${req.params.uid}`,
+    headers: headers(req),
+    params: req.query
+  }
+
+  axios.request(config)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      res.status(400).json(error?.response?.data)
+    })
+})
+
+app.put('/api/v1/creditors/:uid', (req, res) => {
+  let config = {
+    method: 'GET',
+    url: `${process.env.API_URL}/api/v1/creditors/${req.params.uid}`,
+    headers: headers(req),
+    data: req.body
+  }
+
+  axios.request(config)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      res.status(400).json(error?.response?.data)
+    })
+})
+
 app.listen(5001, () => console.log("Backend server is running!"));
 
 module.exports = app;
