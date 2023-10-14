@@ -25,28 +25,24 @@ app.get('/api/v1/ping', (req, res) => {
   })
 })
 
+const headers = (req) => {
+  return {
+    'X-REQUEST-ID': req.header('x-request-id'), 
+    'X-TIMESTAMP': req.header('x-timestamp'),  
+    'X-CHANNEL-ID': req.header('channel-id'), 
+    'X-SIGNATURE': req.header('x-signature'),
+    'X-DEVICE-ID': '', 
+    'X-DEVICE-INFO': '', 
+    'Authorization': req.header('authorization'),
+    'Content-Type': 'application/json'
+  }
+}
+
 app.post('/api/v1/users/login', (req, res) => {
-  const ISO_8601_OFFSET = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-  const timestamp = moment().format(ISO_8601_OFFSET);
-  const secret = process.env.API_SIGNATURE_SECRET;
-  const httpMethod = 'POST';
-  const relativeUrl = req.url;
-  const sha256body = SHA256(JSON.stringify(req.body))
-  const stringToSign = `${httpMethod}:${relativeUrl}:${sha256body}:${timestamp}`
-  const sha256digest = HmacSHA256(stringToSign, secret);
-  console.log(stringToSign);
   let config = {
     method: 'POST',
     url: `${process.env.API_URL}/api/v1/users/login`,
-    headers: {
-      'X-REQUEST-ID': req.header('x-request-id'), 
-      'X-TIMESTAMP': req.header('x-timestamp'),  
-      'X-CHANNEL-ID': req.header('channel-id'), 
-      'X-SIGNATURE': req.header('x-signature'),
-      'X-DEVICE-ID': '', 
-      'X-DEVICE-INFO': '', 
-      'Content-Type': 'application/json'
-    },
+    headers: headers(req),
     data: req.body
   }
 
@@ -56,7 +52,38 @@ app.post('/api/v1/users/login', (req, res) => {
       res.status(200).json(response.data);
     })
     .catch((error) => {
-      console.log(config)
+      res.status(400).json(error?.response?.data)
+    })
+})
+
+app.get('/api/v1/users/info', (req, res) => {
+  let config = {
+    method: 'GET',
+    url: `${process.env.API_URL}/api/v1/users/info`,
+    headers: headers(req)
+  }
+  axios.request(config)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      res.status(400).json(error?.response?.data)
+    })
+})
+
+app.get('/api/v1/users/refreshToken', (req, res) => {
+  let config = {
+    method: 'GET',
+    url: `${process.env.API_URL}/api/v1/users/refreshToken`,
+    headers: headers(req),
+    params: req.query
+  }
+
+  axios.request(config)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
       res.status(400).json(error?.response?.data)
     })
 })
