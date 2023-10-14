@@ -33,7 +33,7 @@ app.post('/api/v1/users/login', (req, res) => {
   const sha256body = SHA256(JSON.stringify(req.body))
   const stringToSign = `${httpMethod}:${relativeUrl}:${sha256body}:${timestamp}`
   const sha256digest = HmacSHA256(stringToSign, secret);
-
+  console.log(process.env.API_SIGNATURE_SECRET);
   let config = {
     method: 'POST',
     url: `${process.env.API_URL}/api/v1/users/login`,
