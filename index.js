@@ -88,6 +88,23 @@ app.get('/api/v1/users/refreshToken', (req, res) => {
     })
 })
 
+app.get('/api/v1/users/logout', (req, res) => {
+  let config = {
+    method: 'GET',
+    url: `${process.env.API_URL}/api/v1/users/logout`,
+    headers: headers(req),
+    params: req.query
+  }
+
+  axios.request(config)
+    .then((response) => {
+      res.status(200).json(response.data);
+    })
+    .catch((error) => {
+      res.status(400).json(error?.response?.data)
+    })
+})
+
 app.get('/api/v1/banks', (req, res) => {
   let config = {
     method: 'GET',
