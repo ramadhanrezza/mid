@@ -29,10 +29,10 @@ const headers = (req) => {
   return {
     'X-REQUEST-ID': req.header('x-request-id'), 
     'X-TIMESTAMP': req.header('x-timestamp'),  
-    'X-CHANNEL-ID': req.header('channel-id'), 
+    'X-CHANNEL-ID': req.header('x-channel-id'), 
     'X-SIGNATURE': req.header('x-signature'),
-    'X-DEVICE-ID': '', 
-    'X-DEVICE-INFO': '', 
+    'X-DEVICE-ID': req.header('x-device-id'), 
+    'X-DEVICE-INFO': req.header('x-device-info'), 
     'Authorization': req.header('authorization'),
     'Content-Type': 'application/json'
   }
